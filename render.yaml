@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: qiluvision
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        value: file:/app/data/qiluvision.db
+      - key: MEDIA_STORAGE_ROOT
+        value: /app/data/storage
+      - key: MEDIA_GENERATED_ROOT
+        value: /app/data/generated
+      - key: MAX_IMAGE_UPLOAD_MB
+        value: 25
+      - key: MAX_VIDEO_UPLOAD_MB
+        value: 250
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: qiluvision-data
+      mountPath: /app/data
+      sizeGB: 5

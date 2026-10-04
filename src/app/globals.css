@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+:root {
+  --background: oklch(0.965 0.012 88);
+  --foreground: oklch(0.225 0.015 78);
+  --card: oklch(0.99 0.008 88);
+  --card-foreground: oklch(0.225 0.015 78);
+  --primary: oklch(0.255 0.02 78);
+  --primary-foreground: oklch(0.97 0.012 88);
+  --muted: oklch(0.925 0.014 88);
+  --muted-foreground: oklch(0.46 0.018 72);
+  --accent: oklch(0.9 0.055 42);
+  --accent-foreground: oklch(0.38 0.11 34);
+  --border: oklch(0.82 0.018 82);
+  --ring: oklch(0.5 0.13 32);
+  --ink: oklch(0.255 0.02 78);
+  --paper: oklch(0.965 0.012 88);
+  --seal: oklch(0.48 0.16 31);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-seal: var(--seal);
+  --font-sans: var(--font-noto-sans);
+  --font-serif: var(--font-noto-serif);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), "Microsoft YaHei", sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+.paper-grid {
+  background-image:
+    radial-gradient(circle at 12% 14%, color-mix(in oklab, var(--seal) 8%, transparent) 0, transparent 28%),
+    linear-gradient(color-mix(in oklab, var(--ink) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--ink) 3%, transparent) 1px, transparent 1px);
+  background-size: auto, 32px 32px, 32px 32px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 78%);
+}
+
+.seal-mark {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  background: var(--seal);
+  color: var(--paper);
+  font-family: var(--font-serif), serif;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--paper) 30%, transparent);
+}
+
+.ink-emphasis {
+  position: relative;
+  white-space: nowrap;
+}
+
+.ink-emphasis::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.3rem;
+  left: 0;
+  height: 0.22rem;
+  background: var(--seal);
+  content: "";
+  opacity: 0.82;
+  transform: rotate(-0.6deg);
+}
+
+@media (max-width: 480px) {
+  .ink-emphasis {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

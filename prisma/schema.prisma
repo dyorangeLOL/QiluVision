@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id             String       @id @default(cuid())
+  name           String
+  creativeIntent String?
+  status         String       @default("draft")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  assets         Asset[]
+  topics         Topic[]
+  storyboards    Storyboard[]
+  exports        Export[]
+}
+
+model Asset {
+  id               String         @id @default(cuid())
+  projectId        String
+  originalFilename String
+  storedFilename   String
+  type             String
+  mimeType         String
+  size             Int
+  localPath        String
+  thumbnailPath    String?
+  duration         Float?
+  width            Int?
+  height           Int?
+  fps              Float?
+  codec            String?
+  status           String         @default("uploading")
+  errorMessage     String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  analysis         AssetAnalysis?
+  frames           AssetFrame[]
+  boundShots       Shot[]
+
+  @@index([projectId])
+  @@index([projectId, status])
+}
+
+model AssetFrame {
+  id        String   @id @default(cuid())
+  assetId   String
+  filename  String
+  localPath String
+  position  Int
+  timestamp Float
+  createdAt DateTime @default(now())
+  asset     Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@unique([assetId, position])
+  @@index([assetId])
+}
+
+model AssetAnalysis {
+  id             String   @id @default(cuid())
+  assetId        String   @unique
+  summary        String
+  subjectsJson   String
+  scenesJson     String
+  visualTagsJson String
+  locationHint   String?
+  culturalHints  String?
+  confidence     Float?
+  model          String
+  schemaVersion  String   @default("1")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  asset          Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+}
+
+model Topic {
+  id                String       @id @default(cuid())
+  projectId         String
+  title             String
+  angle             String
+  rationale         String
+  culturalRelevance String?
+  selected          Boolean      @default(false)
+  rank              Int
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  project           Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  storyboards       Storyboard[]
+
+  @@unique([projectId, rank])
+  @@index([projectId])
+}
+
+model Storyboard {
+  id             String          @id @default(cuid())
+  projectId      String
+  topicId        String?
+  title          String
+  synopsis       String
+  narrativeArc   String?
+  status         String          @default("draft")
+  schemaVersion  String          @default("1")
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  project        Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  topic          Topic?          @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  shots          Shot[]
+  culturalClaims CulturalClaim[]
+
+  @@index([projectId])
+  @@index([topicId])
+}
+
+model Shot {
+  id                String          @id @default(cuid())
+  storyboardId      String
+  assetId           String?
+  position          Int
+  title             String
+  purpose           String
+  narration         String?
+  visualDescription String
+  shotSize          String?
+  cameraHeight      String?
+  cameraMovement    String?
+  durationSeconds   Float?
+  isShotLocked      Boolean         @default(false)
+  isAssetLocked     Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  storyboard        Storyboard      @relation(fields: [storyboardId], references: [id], onDelete: Cascade)
+  boundAsset        Asset?          @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  culturalClaims    CulturalClaim[]
+
+  @@unique([storyboardId, position])
+  @@index([assetId])
+}
+
+model KnowledgeEntry {
+  id        String          @id @default(cuid())
+  location  String
+  category  String
+  title     String
+  content   String
+  source    String
+  verified  Boolean         @default(false)
+  tags      String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  claims    CulturalClaim[]
+
+  @@index([location, category])
+}
+
+model CulturalClaim {
+  id               String          @id @default(cuid())
+  storyboardId     String
+  shotId           String?
+  knowledgeEntryId String?
+  claim            String
+  status           String          @default("unverified")
+  evidence         String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  storyboard       Storyboard      @relation(fields: [storyboardId], references: [id], onDelete: Cascade)
+  shot             Shot?           @relation(fields: [shotId], references: [id], onDelete: SetNull)
+  knowledgeEntry   KnowledgeEntry? @relation(fields: [knowledgeEntryId], references: [id], onDelete: SetNull)
+
+  @@index([storyboardId])
+  @@index([shotId])
+  @@index([knowledgeEntryId])
+}
+
+model Export {
+  id           String    @id @default(cuid())
+  projectId    String
+  format       String
+  status       String    @default("pending")
+  filePath     String?
+  errorMessage String?
+  createdAt    DateTime  @default(now())
+  completedAt  DateTime?
+  project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
