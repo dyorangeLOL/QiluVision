@@ -21,6 +21,7 @@ export const verifiedClaimSchema = z.object({
   status: z.enum(["supported", "insufficient_evidence"]),
   evidenceEntryIds: z.array(z.string().min(1)),
   displayMessage: z.string().min(1),
+  evidenceQuote: z.string().optional(),
 });
 
 export const verifyCulturalClaimsOutputSchema = z.object({

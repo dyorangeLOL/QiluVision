@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" color="#943D2E">
+  <title>齐鲁影策：齐字影带</title>
+  <g id="qi-film-symbol">
+    <!-- A clipped dot and horizontal strip establish the character's top. -->
+    <path d="M11.15 2.2L13.5 3.55L12.75 4.85L10.4 3.5ZM4 5.8H20L19.1 7.5H4Z"/>
+    <!-- Two ribbons cross with a deliberate gap to retain the weave at small sizes. -->
+    <path d="M7.3 7.5C9.8 10.65 14.3 12.4 20 12.7L19.55 14.55C13.1 14 8.2 11.95 5.85 8.45Z"/>
+    <path d="M16.75 7.5L18.2 8.45C17.15 9.85 15.9 10.95 14.6 11.8L12.85 10.7C14.45 9.8 15.65 8.75 16.75 7.5ZM9.8 12.1L11.75 13.2C9.7 14 7.3 14.5 4.45 14.65L4 12.8C6.15 12.7 8.05 12.5 9.8 12.1Z"/>
+    <!-- The two lower strokes become a curling film tail and a vertical strip. -->
+    <path d="M7.45 15.65H9.35V17.2C9.35 19.8 7.75 21.3 5.3 21.8L4.55 20.15C6.55 19.6 7.45 18.85 7.45 17.1Z"/>
+    <path fill-rule="evenodd" d="M14.55 15.65H17.55V21.55H14.55ZM15.65 16.5H16.45V17.35H15.65ZM15.65 18.1H16.45V18.95H15.65ZM15.65 19.7H16.45V20.55H15.65Z"/>
+  </g>
+</svg>

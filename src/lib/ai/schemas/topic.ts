@@ -12,6 +12,8 @@ export const topicSuggestionSchema = z.object({
   angle: z.string().min(1),
   rationale: z.string().min(1),
   culturalRelevance: z.string().min(1),
+  evidenceEntryIds: z.array(z.string().min(1)).optional(),
+  evidenceQuote: z.string().optional(),
   rank: z.number().int().min(1).max(3),
 });
 

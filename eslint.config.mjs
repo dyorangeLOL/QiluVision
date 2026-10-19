@@ -5,6 +5,6 @@ import nextTypeScript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTypeScript,
-  globalIgnores([".next/**", "out/**", "dist/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", ".test-output/**", "out/**", "dist/**", "next-env.d.ts", "animated-bar-chart/**"]),
 ]);
 

@@ -1,8 +1,12 @@
 import { z } from "zod";
+import { assetAnalysisOutputSchema } from "./asset-analysis";
 
 export const assetReferenceSchema = z.object({
   assetId: z.string().min(1),
   originalFilename: z.string().min(1),
+  analysis: assetAnalysisOutputSchema.optional(),
+  duration: z.number().nullable().optional(),
+  mediaType: z.string().optional(),
 });
 
 export const cultureContextSchema = z.object({
@@ -23,7 +27,7 @@ export const shotDraftSchema = z.object({
   shotSize: z.string().optional(),
   cameraHeight: z.string().optional(),
   cameraMovement: z.string().optional(),
-  durationSeconds: z.number().positive().optional(),
+  durationSeconds: z.number().min(0.1).max(600).optional(),
   assetId: z.string().min(1).nullable().optional(),
   isShotLocked: z.boolean().default(false),
   isAssetLocked: z.boolean().default(false),

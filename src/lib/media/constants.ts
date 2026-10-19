@@ -12,5 +12,5 @@ export type AssetStatus = "uploading" | "uploaded" | "processing" | "ready" | "f
 
 export const MAX_IMAGE_BYTES = Number(process.env.MAX_IMAGE_UPLOAD_MB ?? 25) * 1024 * 1024;
 export const MAX_VIDEO_BYTES = Number(process.env.MAX_VIDEO_UPLOAD_MB ?? 250) * 1024 * 1024;
-export const MAX_BATCH_BYTES = 500 * 1024 * 1024;
+export const MAX_BATCH_BYTES = 2 * 1024 * 1024 * 1024;
 export const MAX_BATCH_FILES = 20;

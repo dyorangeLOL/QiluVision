@@ -8,15 +8,16 @@
   --primary: oklch(0.255 0.02 78);
   --primary-foreground: oklch(0.97 0.012 88);
   --muted: oklch(0.925 0.014 88);
-  --muted-foreground: oklch(0.46 0.018 72);
+  --muted-foreground: oklch(0.43 0.012 72);
   --accent: oklch(0.9 0.055 42);
   --accent-foreground: oklch(0.38 0.11 34);
-  --border: oklch(0.82 0.018 82);
+  --border: oklch(0.86 0.012 82);
   --ring: oklch(0.5 0.13 32);
   --ink: oklch(0.255 0.02 78);
   --paper: oklch(0.965 0.012 88);
   --seal: oklch(0.48 0.16 31);
   --radius: 0.5rem;
+  --ui-font: "PingFang SC", -apple-system, BlinkMacSystemFont, "Microsoft YaHei", var(--font-noto-sans), sans-serif;
 }
 
 @theme inline {
@@ -35,7 +36,7 @@
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-seal: var(--seal);
-  --font-sans: var(--font-noto-sans);
+  --font-sans: var(--ui-font);
   --font-serif: var(--font-noto-serif);
 }
 
@@ -51,8 +52,45 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), "Microsoft YaHei", sans-serif;
+  font-family: var(--ui-font);
   text-rendering: optimizeLegibility;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+}
+
+/* Floating chrome preserves context while the content remains the focus. */
+.workspace-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in oklab, var(--paper) 94%, transparent);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent);
+}
+
+.workspace-panel {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+  box-shadow: 0 3px 16px color-mix(in oklab, var(--ink) 3%, transparent);
+}
+
+.pressable {
+  touch-action: manipulation;
+  transition: background-color 150ms ease, box-shadow 150ms ease, transform 100ms ease-out;
+}
+
+.pressable:active { transform: scale(0.98); }
+button:not(:disabled), a { cursor: pointer; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+h1, h2, h3 { overflow-wrap: anywhere; }
+html { scroll-padding-top: 6rem; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .workspace-header { background: var(--paper); backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  .workspace-header, .workspace-panel { background: var(--card); border: 1px solid var(--ink); }
 }
 
 .paper-grid {
@@ -112,4 +150,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+  .pressable:active { transform: none; }
 }

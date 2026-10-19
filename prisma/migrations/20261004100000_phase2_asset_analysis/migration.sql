@@ -1,0 +1,11 @@
+ALTER TABLE "Asset" ADD COLUMN "aiStatus" TEXT NOT NULL DEFAULT 'not_analyzed';
+ALTER TABLE "AssetAnalysis" ADD COLUMN "provider" TEXT NOT NULL DEFAULT 'deepseek';
+ALTER TABLE "AssetAnalysis" ADD COLUMN "status" TEXT NOT NULL DEFAULT 'ready';
+ALTER TABLE "AssetAnalysis" ADD COLUMN "rawResponse" TEXT;
+ALTER TABLE "AssetAnalysis" ADD COLUMN "analysisJson" TEXT NOT NULL DEFAULT '{}';
+ALTER TABLE "AssetAnalysis" ADD COLUMN "errorMessage" TEXT;
+ALTER TABLE "AssetAnalysis" ADD COLUMN "inputCount" INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE "AssetAnalysis" ADD COLUMN "requestDurationMs" INTEGER;
+ALTER TABLE "AssetAnalysis" ADD COLUMN "promptTokens" INTEGER;
+ALTER TABLE "AssetAnalysis" ADD COLUMN "completionTokens" INTEGER;
+ALTER TABLE "AssetAnalysis" ADD COLUMN "totalTokens" INTEGER;

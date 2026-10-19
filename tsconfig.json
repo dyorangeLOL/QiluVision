@@ -36,7 +36,9 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
+    ".test-output",
     "node_modules",
-    "media-service"
+    "media-service",
+    "animated-bar-chart"
   ]
 }

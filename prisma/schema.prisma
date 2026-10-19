@@ -37,6 +37,7 @@ model Asset {
   codec            String?
   status           String         @default("uploading")
   errorMessage     String?
+  aiStatus         String         @default("not_analyzed")
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
@@ -63,20 +64,30 @@ model AssetFrame {
 }
 
 model AssetAnalysis {
-  id             String   @id @default(cuid())
-  assetId        String   @unique
-  summary        String
-  subjectsJson   String
-  scenesJson     String
-  visualTagsJson String
-  locationHint   String?
-  culturalHints  String?
-  confidence     Float?
-  model          String
-  schemaVersion  String   @default("1")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  asset          Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  assetId           String   @unique
+  summary           String
+  subjectsJson      String
+  scenesJson        String
+  visualTagsJson    String
+  locationHint      String?
+  culturalHints     String?
+  confidence        Float?
+  model             String
+  provider          String   @default("deepseek")
+  status            String   @default("ready")
+  rawResponse       String?
+  analysisJson      String   @default("{}")
+  errorMessage      String?
+  inputCount        Int      @default(1)
+  requestDurationMs Int?
+  promptTokens      Int?
+  completionTokens  Int?
+  totalTokens       Int?
+  schemaVersion     String   @default("1")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  asset             Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
 }
 
 model Topic {
@@ -106,6 +117,11 @@ model Storyboard {
   narrativeArc   String?
   status         String          @default("draft")
   schemaVersion  String          @default("1")
+  targetDuration Int             @default(60)
+  aspectRatio    String          @default("9:16")
+  storyPlanJson  String          @default("{}")
+  diagnosisJson  String          @default("[]")
+  revision       Int             @default(0)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   project        Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)

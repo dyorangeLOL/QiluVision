@@ -20,6 +20,7 @@ export type AssetDto = {
   codec: string | null;
   status: "uploading" | "uploaded" | "processing" | "ready" | "failed";
   errorMessage: string | null;
+  aiStatus: "not_analyzed" | "analyzing" | "ready" | "failed";
   createdAt: string;
   thumbnailUrl: string | null;
   fileUrl: string;

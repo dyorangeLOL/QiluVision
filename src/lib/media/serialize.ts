@@ -19,6 +19,7 @@ export function serializeAsset(asset: AssetWithFrames): AssetDto {
     codec: asset.codec,
     status: asset.status as AssetDto["status"],
     errorMessage: asset.errorMessage,
+    aiStatus: asset.aiStatus as AssetDto["aiStatus"],
     createdAt: asset.createdAt.toISOString(),
     thumbnailUrl: asset.thumbnailPath ? `/api/assets/${asset.id}/thumbnail` : null,
     fileUrl: `/api/assets/${asset.id}/file`,

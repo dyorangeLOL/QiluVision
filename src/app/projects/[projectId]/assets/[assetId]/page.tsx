@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react";
 
 import { DeleteAssetButton } from "@/components/media/asset-actions";
+import { AssetAnalysisPanel } from "@/components/media/asset-analysis-panel";
 import { FrameGallery } from "@/components/media/frame-gallery";
+import { assetAnalysisOutputSchema, type AssetAnalysisOutput } from "@/lib/ai/schemas/asset-analysis";
 import { db } from "@/lib/db";
 import { serializeAsset } from "@/lib/media/serialize";
 
@@ -18,10 +20,19 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ pr
   const { projectId, assetId } = await params;
   const record = await db.asset.findFirst({
     where: { id: assetId, projectId },
-    include: { project: true, frames: { orderBy: { position: "asc" } } },
+    include: { project: true, frames: { orderBy: { position: "asc" } }, analysis: true },
   });
   if (!record) notFound();
   const asset = serializeAsset(record);
+  let initialAnalysis: AssetAnalysisOutput | null = null;
+  if (record.analysis?.status === "ready") {
+    try {
+      const parsed = assetAnalysisOutputSchema.safeParse(JSON.parse(record.analysis.analysisJson));
+      initialAnalysis = parsed.success ? parsed.data : null;
+    } catch {
+      initialAnalysis = null;
+    }
+  }
   return (
     <main className="min-h-dvh">
       <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-12">
@@ -70,12 +81,13 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ pr
         {asset.type === "video" && asset.frames.length ? (
           <section className="mt-14" aria-labelledby="frames-heading">
             <div className="flex items-end justify-between gap-4 border-b border-border pb-4">
-              <div><p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Extracted frames</p><h2 id="frames-heading" className="mt-2 font-serif text-2xl font-semibold">关键帧</h2></div>
+              <div><p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">代表帧</p><h2 id="frames-heading" className="mt-2 font-serif text-2xl font-semibold">关键帧</h2></div>
               <p className="text-sm text-muted-foreground">{asset.frames.length} 张</p>
             </div>
             <div className="mt-6"><FrameGallery frames={asset.frames} assetName={asset.originalFilename} /></div>
           </section>
         ) : null}
+        <AssetAnalysisPanel assetId={asset.id} initialStatus={asset.aiStatus} initialAnalysis={initialAnalysis} />
       </section>
     </main>
   );

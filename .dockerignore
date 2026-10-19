@@ -1,4 +1,6 @@
 .git
+.local
+animated-bar-chart
 .next
 node_modules
 .env

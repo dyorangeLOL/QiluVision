@@ -44,7 +44,7 @@ export async function POST(
   const { projectId } = await params;
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > MAX_BATCH_BYTES) {
-    return NextResponse.json({ error: "单次上传总大小不能超过 500 MB。" }, { status: 413 });
+    return NextResponse.json({ error: "单次上传总大小不能超过 2 GB。" }, { status: 413 });
   }
   const project = await db.project.findUnique({ where: { id: projectId }, select: { id: true } });
   if (!project) return NextResponse.json({ error: "项目不存在。" }, { status: 404 });

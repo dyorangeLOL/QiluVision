@@ -43,11 +43,11 @@ export function ProjectList({ initialProjects }: { initialProjects: ProjectSumma
   }
 
   return (
-    <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-      <form onSubmit={createProject} className="border border-border bg-card/80 p-6 sm:p-8">
+    <div className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <form onSubmit={createProject} className="workspace-panel p-6 sm:p-8">
         <div className="flex items-center gap-3">
           <FolderPlus className="size-5 text-seal" aria-hidden="true" />
-          <h2 className="font-serif text-2xl font-semibold">创建项目</h2>
+          <h2 className="text-xl font-semibold">创建项目</h2>
         </div>
         <div className="mt-8 grid gap-5">
           <div>
@@ -58,7 +58,7 @@ export function ProjectList({ initialProjects }: { initialProjects: ProjectSumma
               onChange={(event) => setName(event.target.value)}
               maxLength={80}
               required
-              className="mt-2 min-h-11 w-full border border-border bg-background px-4 outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="mt-2 min-h-12 w-full rounded-lg border border-border bg-background px-4 outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
               placeholder="例如：湖城清晨"
             />
           </div>
@@ -71,7 +71,7 @@ export function ProjectList({ initialProjects }: { initialProjects: ProjectSumma
               maxLength={300}
               required
               rows={4}
-              className="mt-2 w-full resize-none border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="mt-2 w-full resize-y rounded-lg border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
               placeholder="我想讲一个年轻人眼中的大明湖。"
             />
           </div>
@@ -86,8 +86,8 @@ export function ProjectList({ initialProjects }: { initialProjects: ProjectSumma
       <section aria-labelledby="project-list-heading">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Recent projects</p>
-            <h2 id="project-list-heading" className="mt-2 font-serif text-2xl font-semibold">最近项目</h2>
+            <p className="text-[13px] text-muted-foreground">继续创作</p>
+            <h2 id="project-list-heading" className="mt-2 text-xl font-semibold">最近项目</h2>
           </div>
           <span className="text-sm text-muted-foreground">{initialProjects.length} 个</span>
         </div>
@@ -97,12 +97,12 @@ export function ProjectList({ initialProjects }: { initialProjects: ProjectSumma
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className="group flex min-h-24 items-center justify-between gap-5 border border-border bg-card/70 p-5 transition-colors hover:border-ink/30 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="pressable group flex min-h-24 items-center justify-between gap-5 rounded-xl border border-border bg-card p-5 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="min-w-0">
                   <h3 className="font-medium text-foreground">{project.name}</h3>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{project.creativeIntent}</p>
-                  <p className="mt-3 text-xs text-muted-foreground">{project._count.assets} 个素材</p>
+                  <p className="mt-3 text-[13px] tabular-nums text-muted-foreground">{project._count.assets} 个素材 · {new Date(project.updatedAt).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" })} 更新</p>
                 </div>
                 <ArrowRight className="size-5 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Link>
